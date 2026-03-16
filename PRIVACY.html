@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QBO Connect - Privacy Policy</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.6; max-width: 800px; margin: 40px auto; padding: 0 20px; color: #333; }
+    h1 { border-bottom: 2px solid #2c5aa0; padding-bottom: 10px; color: #2c5aa0; }
+    h2 { color: #2c5aa0; margin-top: 30px; }
+    h3 { color: #444; }
+    p, li { margin-bottom: 8px; }
+    .effective-date { color: #666; font-style: italic; }
+    table { border-collapse: collapse; width: 100%; margin: 15px 0; }
+    th, td { border: 1px solid #ddd; padding: 10px 12px; text-align: left; }
+    th { background-color: #f5f7fa; color: #2c5aa0; }
+  </style>
+</head>
+<body>
+
+<h1>Privacy Policy</h1>
+<p><strong>QBO Connect Plugin for UserSpice</strong></p>
+<p class="effective-date">Effective Date: March 16, 2026</p>
+
+<p>This Privacy Policy describes how the QBO Connect plugin ("Plugin") collects, uses, stores, and protects data when you use it to integrate your UserSpice application with QuickBooks Online ("QBO"). By installing and using this Plugin, you agree to the practices described in this policy.</p>
+
+<h2>1. Data We Collect</h2>
+<p>The Plugin collects and stores the following categories of data from your QuickBooks Online account:</p>
+
+<h3>1.1 Authentication Data</h3>
+<ul>
+  <li><strong>OAuth Credentials:</strong> Client ID, Client Secret, and Redirect URI configured by the administrator.</li>
+  <li><strong>OAuth Tokens:</strong> Access tokens (short-lived, ~1 hour) and refresh tokens (~100 days) used to authenticate API requests.</li>
+  <li><strong>Realm ID:</strong> Your QuickBooks Online company identifier.</li>
+  <li><strong>Webhook Verifier Token:</strong> Used to validate incoming webhook notifications from Intuit.</li>
+</ul>
+
+<h3>1.2 Business Data Synced from QuickBooks Online</h3>
+<table>
+  <thead>
+    <tr><th>Data Type</th><th>Fields Stored</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Customers</td>
+      <td>Name, company name, email, phone, account balance, active status</td>
+    </tr>
+    <tr>
+      <td>Invoices</td>
+      <td>Invoice number, customer reference, dates, amounts, balance, payment status, email delivery status</td>
+    </tr>
+    <tr>
+      <td>Estimates</td>
+      <td>Estimate number, customer reference, dates, amounts, acceptance status</td>
+    </tr>
+    <tr>
+      <td>Projects</td>
+      <td>Project name, description, associated customer, project status</td>
+    </tr>
+    <tr>
+      <td>Company Info</td>
+      <td>Company name, legal name, address, phone, email, industry, fiscal year</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>1.3 Operational Data</h3>
+<ul>
+  <li><strong>Sync Logs:</strong> Timestamps, record counts, and error messages from data sync operations.</li>
+  <li><strong>Webhook Queue:</strong> Incoming webhook event metadata (entity type, entity ID, operation type), processing status, retry attempts, and raw webhook payloads.</li>
+  <li><strong>System Logs:</strong> Administrative actions, API request results, sync activity, and security events logged through UserSpice's logging system.</li>
+</ul>
+
+<h2>2. How We Use Your Data</h2>
+<p>The data collected by the Plugin is used exclusively for the following purposes:</p>
+<ul>
+  <li><strong>Authentication:</strong> To establish and maintain a secure connection between your UserSpice application and QuickBooks Online.</li>
+  <li><strong>Data Synchronization:</strong> To create a local cache of your QBO data for display and reference within your UserSpice application.</li>
+  <li><strong>Webhook Processing:</strong> To receive and process change notifications from QuickBooks Online so your local data stays current.</li>
+  <li><strong>Audit Trail:</strong> To maintain logs of sync operations for troubleshooting and administrative review.</li>
+</ul>
+
+<h2>3. Data Storage and Security</h2>
+
+<h3>3.1 Where Data Is Stored</h3>
+<p>All data collected by the Plugin is stored locally in your MySQL database on your server. No data is transmitted to or stored on any third-party servers other than Intuit's QuickBooks Online API servers during normal API operations.</p>
+
+<h3>3.2 Security Measures</h3>
+<ul>
+  <li>OAuth credentials and tokens are stored in your database. Access to the Plugin's configuration is restricted to UserSpice master account holders.</li>
+  <li>Incoming webhook notifications are validated using HMAC-SHA256 signature verification to ensure they originate from Intuit.</li>
+  <li>The webhook cron processor is protected by IP allowlist and access code verification when called via web.</li>
+  <li>All API communication with QuickBooks Online occurs over HTTPS (TLS 1.2+).</li>
+</ul>
+
+<h3>3.3 Your Responsibility</h3>
+<p>You are responsible for:</p>
+<ul>
+  <li>Securing your server, database, and UserSpice installation.</li>
+  <li>Restricting access to the Plugin's configuration pages to authorized administrators.</li>
+  <li>Keeping your server's SSL/TLS certificates valid and up to date.</li>
+  <li>Monitoring and rotating your OAuth credentials and cron access codes as needed.</li>
+</ul>
+
+<h2>4. Third-Party Data Sharing</h2>
+<p>The Plugin communicates with the following external services:</p>
+
+<h3>4.1 Intuit / QuickBooks Online</h3>
+<ul>
+  <li><strong>OAuth Authorization:</strong> <code>appcenter.intuit.com</code> — User authentication and authorization.</li>
+  <li><strong>Token Management:</strong> <code>oauth.platform.intuit.com</code> — Token exchange and refresh.</li>
+  <li><strong>API Requests:</strong> <code>quickbooks.api.intuit.com</code> (or sandbox equivalent) — Data queries and entity retrieval.</li>
+  <li><strong>Webhooks:</strong> Intuit sends POST requests to your configured webhook endpoint.</li>
+</ul>
+<p>The Plugin does not share, sell, or transmit your data to any other third parties. All data flows are between your server and Intuit's servers.</p>
+<p>Intuit's privacy practices are governed by their own privacy policy, available at <a href="https://www.intuit.com/privacy/">intuit.com/privacy</a>.</p>
+
+<h2>5. Data Retention</h2>
+<ul>
+  <li><strong>Synced Business Data:</strong> Retained in your database until you manually delete it, clear the tables, or uninstall the Plugin.</li>
+  <li><strong>OAuth Tokens:</strong> Retained until you disconnect from QuickBooks Online or uninstall the Plugin. Refresh tokens expire automatically after approximately 100 days of inactivity.</li>
+  <li><strong>Webhook Queue:</strong> Event records are retained indefinitely unless manually cleared through the webhook queue management page.</li>
+  <li><strong>System Logs:</strong> Managed by UserSpice's built-in logging system and subject to its retention policies.</li>
+</ul>
+
+<h2>6. Data Deletion</h2>
+<p>You can remove all Plugin data by:</p>
+<ul>
+  <li><strong>Disconnecting:</strong> Click "Disconnect from QuickBooks" on the configure page to remove OAuth tokens.</li>
+  <li><strong>Uninstalling:</strong> Deactivate and delete the Plugin through UserSpice's plugin manager. The Plugin's delete script will drop all associated database tables.</li>
+  <li><strong>Manual Deletion:</strong> Directly delete records from the Plugin's database tables as needed.</li>
+</ul>
+
+<h2>7. Personally Identifiable Information (PII)</h2>
+<p>The Plugin may store personally identifiable information that exists in your QuickBooks Online account, including but not limited to:</p>
+<ul>
+  <li>Customer names, email addresses, and phone numbers.</li>
+  <li>Company names and business addresses.</li>
+</ul>
+<p>If you are subject to data protection regulations (such as GDPR, CCPA, or similar), you are responsible for ensuring that your use of this Plugin complies with those requirements, including obtaining any necessary consent from data subjects and responding to data access or deletion requests.</p>
+
+<h2>8. Children's Privacy</h2>
+<p>This Plugin is intended for use by business administrators and is not directed at individuals under the age of 18. The Plugin does not knowingly collect personal information from children.</p>
+
+<h2>9. Changes to This Policy</h2>
+<p>This Privacy Policy may be updated from time to time. Changes will be reflected in the "Effective Date" at the top of this document. Continued use of the Plugin after changes are made constitutes acceptance of the revised policy.</p>
+
+<h2>10. Contact</h2>
+<p>For questions about this Privacy Policy or the Plugin's data practices, please contact the Plugin developer through the official distribution channel or repository where you obtained the Plugin.</p>
+
+</body>
+</html>
