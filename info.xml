@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+  <name>QBO Connect</name>
+  <author>UserSpice</author>
+  <website>https://www.userspice.com</website>
+  <version>1.0.0</version>
+  <release>March 12, 2026</release>
+  <tested>6.0.5</tested>
+  <fa_icon>fa fa-book</fa_icon>
+  <description>Connects to QuickBooks Online via OAuth 2.0. Manage your QBO API credentials and authorization flow.</description>
+  <button>QBO Connect</button>
+</plugin>
