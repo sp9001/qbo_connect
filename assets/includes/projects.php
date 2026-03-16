@@ -89,9 +89,15 @@ $lastSync = qbo_get_last_sync('Project');
               <td><?= htmlspecialchars($proj->qbo_id) ?></td>
               <td><?= htmlspecialchars($proj->name) ?></td>
               <td>
-                <?php if (!empty($proj->customer_id)) { ?>
+                <?php if (!empty($proj->customer_id)) {
+                  $custName = $proj->customer_name;
+                  if (empty($custName)) {
+                    $custLookup = qbo_get_local_customer($proj->customer_id);
+                    $custName = $custLookup ? $custLookup->display_name : 'Customer #' . $proj->customer_id;
+                  }
+              ?>
                   <a href="<?= $us_url_root ?>usersc/plugins/qbo_connect/assets/includes/customer_detail.php?id=<?= htmlspecialchars($proj->customer_id) ?>">
-                    <?= htmlspecialchars($proj->customer_name ?: 'Customer #' . $proj->customer_id) ?>
+                    <?= htmlspecialchars($custName) ?>
                   </a>
                 <?php } else { ?>
                   <span class="text-muted">-</span>
