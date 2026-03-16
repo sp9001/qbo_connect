@@ -73,7 +73,7 @@ $lastSync = qbo_get_last_sync('Project');
     <?php if (count($projects) > 0) { ?>
     <div class="card">
       <div class="card-body table-responsive">
-        <table id="projectsTable" class="table table-striped table-hover table-bordered">
+        <table id="projectsTable" class="table table-striped table-hover table-bordered w-100">
           <thead>
             <tr>
               <th>QBO ID</th>
@@ -122,6 +122,7 @@ $lastSync = qbo_get_last_sync('Project');
     $('#projectsTable').DataTable({
       "pageLength": 25,
       "stateSave": true,
+      "autoWidth": true,
       "order": [[1, "asc"]],
       "aLengthMenu": [[25, 50, 100, -1], [25, 50, 100, "All"]]
     });

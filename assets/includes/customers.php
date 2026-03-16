@@ -75,7 +75,7 @@ $lastSync = qbo_get_last_sync('Customer');
     <?php if (count($customers) > 0) { ?>
     <div class="card">
       <div class="card-body table-responsive">
-        <table id="customersTable" class="table table-striped table-hover table-bordered">
+        <table id="customersTable" class="table table-striped table-hover table-bordered w-100">
           <thead>
             <tr>
               <th>QBO ID</th>
@@ -119,6 +119,7 @@ $lastSync = qbo_get_last_sync('Customer');
     $('#customersTable').DataTable({
       "pageLength": 25,
       "stateSave": true,
+      "autoWidth": true,
       "order": [[1, "asc"]],
       "aLengthMenu": [[25, 50, 100, -1], [25, 50, 100, "All"]],
       "columnDefs": [

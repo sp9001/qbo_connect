@@ -319,7 +319,7 @@ if(!function_exists('qbo_get_valid_access_token')) {
 }
 
 if(!function_exists('qbo_api_request')) {
-  function qbo_api_request($endpoint, $method = 'GET', $body = null) {
+  function qbo_api_request($endpoint, $method = 'GET', $body = null, $_is_retry = false) {
     $access_token = qbo_get_valid_access_token();
     $tokens = qbo_get_tokens();
 
@@ -373,6 +373,17 @@ if(!function_exists('qbo_api_request')) {
     }
 
     qbo_log("API response: HTTP $http_code in {$total_time}s", ['url' => $url, 'response_length' => strlen($response)]);
+
+    // On 401, force a token refresh and retry once
+    if($http_code === 401 && !$_is_retry){
+      qbo_log("Got 401 - forcing token refresh and retrying", ['url' => $url]);
+      $refreshResult = qbo_refresh_access_token();
+      if(!isset($refreshResult['error'])){
+        return qbo_api_request($endpoint, $method, $body, true);
+      }
+      qbo_log("Token refresh failed on 401 retry", ['error' => $refreshResult['error']]);
+      return ['error' => 'Authentication failed. Please reconnect to QuickBooks Online.'];
+    }
 
     return json_decode($response, true);
   }

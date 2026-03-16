@@ -80,6 +80,16 @@ if (!empty($_POST)) {
 
       <?= resultBlock($errors, $successes); ?>
 
+      <?php
+      // Show reconnect warning if tokens exist but refresh token is expired
+      if ($qboTokens && !empty($qboTokens->refresh_token) && !$connected) { ?>
+        <div class="alert alert-danger">
+          <strong><i class="fa fa-exclamation-triangle"></i> Connection Expired</strong><br>
+          Your QuickBooks Online refresh token has expired. Webhooks are still queuing events, but data cannot be synced until you reconnect.
+          Please click "Connect to QuickBooks" below to re-authorize.
+        </div>
+      <?php } ?>
+
       <!-- Connection Status -->
       <div class="card mb-4">
         <div class="card-header">
@@ -125,7 +135,14 @@ if (!empty($_POST)) {
           <form method="POST" class="d-inline">
             <?= tokenHere(); ?>
             <input type="hidden" name="action" value="sync_all">
-            <button type="submit" class="btn btn-sm btn-success" onclick="return confirm('Sync all entity types from QBO?')">
+            <?php
+            $firstSyncCheck = @$db->query("SELECT COUNT(*) as cnt FROM plg_qbo_customers");
+            $isFirstSync = (!$firstSyncCheck || $firstSyncCheck->first()->cnt == 0);
+            $syncConfirmMsg = $isFirstSync
+              ? 'This is your first sync and will pull ALL records from your QuickBooks Online account. Depending on the size of your account, this may take a while. Continue?'
+              : 'Sync all entity types from QBO? This will pull any records updated since the last sync.';
+            ?>
+            <button type="submit" class="btn btn-sm btn-success" onclick="return confirm('<?= $syncConfirmMsg ?>')">
               <i class="fa fa-sync"></i> Sync All
             </button>
           </form>

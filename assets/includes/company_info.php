@@ -76,7 +76,7 @@ $lastSync = qbo_get_last_sync('CompanyInfo');
         <h3 class="h5 mb-0"><?= htmlspecialchars($companyInfo->company_name) ?></h3>
       </div>
       <div class="card-body">
-        <table class="table table-bordered mb-0">
+        <table class="table table-bordered mb-0 w-100">
           <tbody>
             <tr><th style="width:200px">QBO ID</th><td><?= htmlspecialchars($companyInfo->qbo_id) ?></td></tr>
             <tr><th>Company Name</th><td><?= htmlspecialchars($companyInfo->company_name) ?></td></tr>

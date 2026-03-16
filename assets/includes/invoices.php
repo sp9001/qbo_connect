@@ -73,7 +73,7 @@ $lastSync = qbo_get_last_sync('Invoice');
     <?php if (count($invoices) > 0) { ?>
     <div class="card">
       <div class="card-body table-responsive">
-        <table id="invoicesTable" class="table table-striped table-hover table-bordered">
+        <table id="invoicesTable" class="table table-striped table-hover table-bordered w-100">
           <thead>
             <tr>
               <th>Doc #</th>
@@ -119,6 +119,7 @@ $lastSync = qbo_get_last_sync('Invoice');
     $('#invoicesTable').DataTable({
       "pageLength": 25,
       "stateSave": true,
+      "autoWidth": true,
       "order": [[2, "desc"]],
       "aLengthMenu": [[25, 50, 100, -1], [25, 50, 100, "All"]]
     });
