@@ -20,15 +20,17 @@ require_once __DIR__ . '/webhook_cron_functions.php';
 // Security: if called via web, check permissions
 if (!$isCli) {
   if (!hasPerm(2)) { // allow admin to call directly if logged in
-    $allowed = ["::1", "127.0.0.1", "96.47.167.18"];
+    $cronSettings = qbo_get_settings();
+    $allowedIps = array_map('trim', explode(',', ($cronSettings->cron_allowed_ips ?? '::1,127.0.0.1')));
     $ip = ipCheck();
-    if (!in_array($ip, $allowed)) {
+    if (!in_array($ip, $allowedIps)) {
       logger(0, "QBO Webhook Cron", "Blocked access attempt from IP: $ip");
       dnd($ip);
       die("not allowed");
     }
     $code = Input::get('code');
-    if ($code != "94585425") {
+    $validCode = $cronSettings->cron_access_code ?? '';
+    if (empty($validCode) || $code !== $validCode) {
       logger(0, "QBO Webhook Cron", "Invalid code from IP: $ip");
       die("imposter!");
     }

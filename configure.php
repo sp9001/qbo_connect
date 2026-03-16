@@ -30,6 +30,8 @@ if (!empty($_POST)) {
       'redirect_uri' => Input::get('redirect_uri'),
       'environment' => Input::get('environment'),
       'webhook_verifier_token' => Input::get('webhook_verifier_token'),
+      'cron_allowed_ips' => Input::get('cron_allowed_ips'),
+      'cron_access_code' => Input::get('cron_access_code'),
     ];
     $db->update('plg_qbo_settings', $qboSettings->id, $fields);
     if (!$db->error()) {
@@ -245,6 +247,32 @@ if (!empty($_POST)) {
                 Found in your Intuit Developer app under Webhooks. Used to verify incoming webhook signatures.
               </small>
             </div>
+
+            <hr>
+            <h5>Cron Security</h5>
+
+            <div class="form-group mb-3">
+              <label for="cron_allowed_ips"><strong>Allowed IPs for Cron Access</strong></label>
+              <input type="text" class="form-control" id="cron_allowed_ips" name="cron_allowed_ips"
+                     value="<?= htmlspecialchars($qboSettings->cron_allowed_ips ?? '::1,127.0.0.1') ?>"
+                     placeholder="::1,127.0.0.1">
+              <small class="form-text text-muted">
+                Comma-separated list of IPs allowed to run the webhook cron via web (in addition to logged-in admins). Localhost is always recommended.
+              </small>
+            </div>
+
+            <div class="form-group mb-3">
+              <label for="cron_access_code"><strong>Cron Access Code</strong></label>
+              <div class="input-group">
+                <input type="text" class="form-control" id="cron_access_code" name="cron_access_code"
+                       value="<?= htmlspecialchars($qboSettings->cron_access_code ?? '') ?>">
+              </div>
+              <small class="form-text text-muted">
+                Required as <code>?code=YOUR_CODE</code> when calling the cron via web from a non-admin session. Auto-generated on first setup.
+              </small>
+            </div>
+
+            <hr>
 
             <div class="form-group mb-3">
               <label><strong>Webhook Endpoint URL</strong></label>

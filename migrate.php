@@ -226,6 +226,22 @@ if($checkC > 0){
   $count++;
   }
 
+  // Migration 00005 - cron security settings (allowed IPs + access code)
+  $update = '00005';
+  if(!in_array($update,$existing)){
+  logger($user->data()->id,"Migrations","$update migration triggered for $plugin_name");
+
+  $db->query("ALTER TABLE plg_qbo_settings ADD COLUMN cron_allowed_ips VARCHAR(500) DEFAULT '::1,127.0.0.1' AFTER webhook_verifier_token");
+  $db->query("ALTER TABLE plg_qbo_settings ADD COLUMN cron_access_code VARCHAR(255) DEFAULT NULL AFTER cron_allowed_ips");
+
+  // Generate a random access code on first setup
+  $randomCode = bin2hex(random_bytes(16));
+  $db->query("UPDATE plg_qbo_settings SET cron_access_code = ?", [$randomCode]);
+
+  $existing[] = $update;
+  $count++;
+  }
+
   //after all updates are done. Keep this at the bottom.
   $new = json_encode($existing);
   $db->update('us_plugins',$checkR->id,['updates'=>$new,'last_check'=>date("Y-m-d H:i:s")]);
